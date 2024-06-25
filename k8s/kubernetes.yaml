@@ -1,0 +1,108 @@
+apiVersion: configuration.konghq.com/v1
+config:
+  origins:
+    - https://devportal-homolog.apr.vee.codes
+    - https://devportal.apr.vee.codes
+kind: KongPlugin
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: kong
+  name: pet-cors
+plugin: cors
+---
+apiVersion: configuration.konghq.com/v1
+config:
+  add:
+    headers:
+      - apikey:RIcnWiadCqxCM3iy03jCpMGrRAvho5gt
+  replace:
+    uri: /pipeline/training/v1/lmodesto-veecode
+kind: KongPlugin
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: kong
+  name: pet-request-transformer
+plugin: request-transformer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    konghq.com/methods: GET
+    konghq.com/regex-priority: "200"
+    konghq.com/strip-path: "false"
+    konghq.com/preserve-host: "false"
+  name: evento-app-spec-pet-pet-findpetsbystatus
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: evento-app-spec
+                port:
+                  number: 80
+            path: /~/evento-app-spec/pipeline/training/v1/lmodesto-veecode$
+            pathType: ImplementationSpecific
+      host: ec2.enviroment.platform.vee.codes
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    konghq.com/methods: POST
+    konghq.com/regex-priority: "200"
+    konghq.com/strip-path: "false"
+    konghq.com/preserve-host: "false"
+  name: evento-app-spec-pet-pet-addpet
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: evento-app-spec
+                port:
+                  number: 80
+            path: /~/evento-app-spec/pipeline/training/v1/lmodesto-veecode$
+            pathType: ImplementationSpecific
+      host: ec2.enviroment.platform.vee.codes
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    konghq.com/methods: PUT
+    konghq.com/regex-priority: "200"
+    konghq.com/strip-path: "false"
+    konghq.com/preserve-host: "false"
+  name: evento-app-spec-pet-pet-updatepet
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: evento-app-spec
+                port:
+                  number: 80
+            path: /~/evento-app-spec/pipeline/training/v1/lmodesto-veecode$
+            pathType: ImplementationSpecific
+      host: ec2.enviroment.platform.vee.codes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    konghq.com/path: /
+    konghq.com/plugins: pet-cors,pet-request-transformer
+    konghq.com/protocol: http
+  name: evento-app-spec
+spec:
+  type: ExternalName
+  externalName: test.godigibee.io
+---
+
