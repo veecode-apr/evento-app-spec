@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: evento-app-spec-location
+  description: Location to import all evento-app-spec catalog components
+spec:
+  targets:
+    - ./.platform/*.yaml

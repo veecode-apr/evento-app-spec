@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "evento-app-spec"
+  description: "Artifacts generator via Spec."
+  annotations:
+    github.com/project-slug: veecode-apr/evento-app-spec
+    backstage.io/techdocs-ref: dir:..
+    github.com/workflows: publish.yml,remove.yml
+    kong-manager/service-name: app.evento-app-spec.80
+    kong-manager/instance: /kong-manager/cluster-ec2-kong-apr
+spec:
+  type: devops
+  lifecycle: experimental
+  owner: "group:default/admin"
+  providesApis:
+    - evento-app-spec
